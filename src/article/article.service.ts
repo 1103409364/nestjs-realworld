@@ -167,10 +167,11 @@ export class ArticleService {
     return {comments: article.comments};
   }
 
-  async create(userId: number, articleData: CreateArticleDto): Promise<ArticleEntity> {
+  async create(userId: number, articleData: CreateArticleDto): Promise<{article:ArticleEntity}> {
 
     let article = new ArticleEntity();
     article.title = articleData.title;
+    article.body = articleData.body;
     article.description = articleData.description;
     article.slug = this.slugify(articleData.title);
     article.tagList = articleData.tagList || [];
@@ -183,7 +184,7 @@ export class ArticleService {
 
     await this.userRepository.save(author);
 
-    return newArticle;
+    return { article: newArticle };
 
   }
 
